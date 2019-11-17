@@ -15,7 +15,7 @@ if (! DEBUG_REDUX) {
                 // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
             }) : compose;
 
-    const enhancer = composeEnhancers(
+    composeEnhancers(
         applyMiddleware(thunk),
         // other store enhancers if any
     );
