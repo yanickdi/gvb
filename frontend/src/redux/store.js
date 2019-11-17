@@ -1,8 +1,9 @@
 import {applyMiddleware, compose, createStore} from "redux";
 import rootReducer from "./reducers";
 import thunk from "redux-thunk";
+import {ENVIRONMENT, LOCAL} from "../utils/environment";
 
-const DEBUG_REDUX = true;
+const DEBUG_REDUX = ENVIRONMENT === LOCAL;
 
 let store;
 if (! DEBUG_REDUX) {
@@ -15,12 +16,11 @@ if (! DEBUG_REDUX) {
                 // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
             }) : compose;
 
-    composeEnhancers(
+    const enhancer = composeEnhancers(
         applyMiddleware(thunk),
         // other store enhancers if any
     );
-    store = createStore(rootReducer,
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+    store = createStore(rootReducer, enhancer);
 }
 
 export default store;

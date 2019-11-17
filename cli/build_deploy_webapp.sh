@@ -19,5 +19,5 @@ deploy(){
   rsync -a backend/ $REMOTE_SERVER:$REMOTE_ROOT/api
 }
 
-#build
+build
 deploy
