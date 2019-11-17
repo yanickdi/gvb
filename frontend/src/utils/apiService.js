@@ -1,4 +1,4 @@
-import {from, of} from "rxjs";
+import {of} from "rxjs";
 import {catchError, switchMap} from "rxjs/operators";
 import {API_URL} from "./environment";
 import {fromFetch} from "rxjs/fetch";
@@ -27,6 +27,14 @@ apiService.fetch = (method, path, payload = null) => {
       return of({error: true, message: err.message})
     })
   );
+};
+
+apiService.getBusstopsFromLocation = (locationName) => {
+  return apiService.fetch('GET', `/location/${locationName}`);
+};
+
+apiService.getBusstopTimetable = (busstop) => {
+  return apiService.fetch('GET', `/busstop/${busstop}`);
 };
 
 export default apiService;

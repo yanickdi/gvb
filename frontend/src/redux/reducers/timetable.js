@@ -1,11 +1,15 @@
+import {SET_TIMETABLE_FOR_LOCATION} from "../actionTypes";
+
 const initialState = {
-  currentBusstop: null,
-  busstop: {}
+  location: {}
 };
 
-export default function(state = initialState, action){
-    switch(action){
-        default:
-            return state;
-    }
+export default function (state = initialState, action) {
+  switch (action.type) {
+    case SET_TIMETABLE_FOR_LOCATION:
+      const {locationName, timetable} = action.payload;
+      return {...state, location: {...state.location, locationName, timetable}};
+    default:
+      return state;
+  }
 }

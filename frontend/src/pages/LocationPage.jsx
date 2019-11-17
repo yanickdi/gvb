@@ -1,6 +1,7 @@
 import React from 'react';
 import {getTimetableFromLocation} from "../redux/actions";
 import {connect} from "react-redux";
+import Timetable from "../components/Timetable";
 
 class LocationPage extends React.Component {
   state = {};
@@ -13,10 +14,17 @@ class LocationPage extends React.Component {
   }
 
   render() {
-    return <div>Loading...</div>;
+    const {locationName} = this.props.match.params;
+    const {location} = this.props;
+    if (Object.entries(location).length === 0) {
+      return <div>Loading...</div>;
+    }
+    return <Timetable showLocation={locationName}/>;
   }
 }
 
-const mapStateToProps = null;
+const mapStateToProps = state => ({
+  location: state.timetable.location
+});
 const createActions = {getTimetableFromLocation};
 export default connect(mapStateToProps, createActions)(LocationPage);

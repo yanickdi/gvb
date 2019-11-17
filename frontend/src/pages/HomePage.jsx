@@ -8,7 +8,7 @@ class HomePage extends React.Component {
   render(){
     return <div>{ENVIRONMENT}
       <ul>
-        <li><Link to="/location/uni">Uni</Link></li>
+        <li><Link to="/location/uni-it">Uni</Link></li>
       </ul>
     </div>;
   }
