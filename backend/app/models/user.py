@@ -13,6 +13,9 @@ class User(db.Model):
         self.username = username
         self.password_digest = password
 
+    def __repr__(self):
+        return 'User<{}>'.format(self.username)
+
     def set_password(self, password: str) -> None:
         self.password_digest = hash_password(password)
 
