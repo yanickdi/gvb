@@ -16,8 +16,22 @@ deploy(){
 
   echo "DEPLOYING BACKEND"
   # TODO: do not copy vendor files, instead copy them on the server side
-  rsync -a backend/ $REMOTE_SERVER:$REMOTE_ROOT/api
+
+  # copy app requirements
+  rsync -a backend/requirements.txt $REMOTE_SERVER:$REMOTE_ROOT/api
+
+  # copy startapp-cgi.py script
+  rsync -a backend/startapp-cgi.py $REMOTE_SERVER:$REMOTE_ROOT/api
+
+  # copy .htaccess
+  rsync -a backend/.htaccess $REMOTE_SERVER:$REMOTE_ROOT/api/www-root
+
+  # copy migration files
+  rsync -a backend/migrations $REMOTE_SERVER:$REMOTE_ROOT/api
+
+  # copy app
+  rsync -a backend/app $REMOTE_SERVER:$REMOTE_ROOT/api
 }
 
-build
+#build
 deploy

@@ -6,8 +6,8 @@ from app.utils.utils import hash_password
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True)
-    password_digest = db.Column(db.String(64))
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    password_digest = db.Column(db.String(64), nullable=False)
 
     def __init__(self, username, password):
         self.username = username
