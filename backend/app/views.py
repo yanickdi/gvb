@@ -31,7 +31,7 @@ def login():
     db.session.add(auth_token)
     db.session.commit()
 
-    return jsonify({'Token': auth_token.token})
+    return jsonify({'token': auth_token.token})
 
 
 @app.route('/')

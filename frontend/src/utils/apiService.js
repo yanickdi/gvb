@@ -37,4 +37,8 @@ apiService.getBusstopTimetable = (busstop) => {
   return apiService.fetch('GET', `/busstop/${busstop}`);
 };
 
+apiService.login = (username, password) => {
+  return apiService.fetch('POST', '/login', {username, password})
+};
+
 export default apiService;

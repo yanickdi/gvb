@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
-import timetable from "./timetable";
+import timetable from "./timetableReducer";
+import user from "./userReducer";
 
-export default combineReducers({timetable});
+export default combineReducers({timetable, user});
