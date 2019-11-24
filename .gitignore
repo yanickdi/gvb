@@ -1,3 +1,5 @@
-backend/vendor/*
+backend/env/
+backend/db.sqlite
+archive/
 .idea
 env/secrets.sh

@@ -20,7 +20,7 @@ export function getTimetableFromLocation(locationName) {
       }), map(
         payloads => [].concat.apply([], payloads)
       ), map(
-        payloads => payloads.sort((a, b) => a.time - b.time)
+        payloads => payloads.sort((a, b) => b.time - a.time)
       )
     ).subscribe(
       sortedTimetable => {

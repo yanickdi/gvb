@@ -8,11 +8,24 @@ class Timetable extends React.Component {
     if (!location.locationName) return <p>Not loaded yet</p>;
 
     return <table>
-      <tbody>{location.timetable.map((entry, i) =>
-        <tr key={i}>
-          <td>Linie {entry.line}</td>
-          <td>{entry.time}</td>
-        </tr>
+      <thead>
+      <tr>
+        <th>Stop</th>
+        <th>Line</th>
+        <th>Dest</th>
+        <th>Time</th>
+      </tr>
+
+      </thead>
+      <tbody>{location.timetable.map((entry, i) => {
+
+          return <tr key={i}>
+            <td>{entry.stop}</td>
+            <td>{entry.line}</td>
+            <td>{entry.dest}</td>
+            <td>{entry.time}</td>
+          </tr>
+        }
       )}</tbody>
 
     </table>;
