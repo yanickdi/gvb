@@ -5,7 +5,7 @@ import {
   APP_FAILURE,
   LOGIN_FAILED_AUTHENTICATION_ERROR,
   LOGIN_START,
-  LOGIN_SUCCESS,
+  LOGIN_SUCCESS, LOGOUT_SUCCESS,
   SET_TIMETABLE_FOR_LOCATION,
   TIMETABLE_FROM_LOCATION_LOADING
 } from "./actionTypes";
@@ -56,4 +56,8 @@ export function loginSubmit(username, password) {
     ).subscribe(
     );
   }
+}
+
+export function logout(){
+  return {type: LOGOUT_SUCCESS};
 }

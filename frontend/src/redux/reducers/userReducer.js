@@ -1,7 +1,6 @@
-import {LOGIN_FAILED_AUTHENTICATION_ERROR, LOGIN_SUCCESS} from "../actionTypes";
+import {LOGIN_FAILED_AUTHENTICATION_ERROR, LOGIN_SUCCESS, LOGOUT_SUCCESS} from "../actionTypes";
 
 const initialState = {
-  user: {},
   token: localStorage.getItem('token'),
   authenticationError: false
 };
@@ -14,6 +13,9 @@ export default function (state = initialState, action) {
       return {...state, authenticationError: false, token};
     case LOGIN_FAILED_AUTHENTICATION_ERROR:
       return {...state, authenticationError: true, token: null};
+    case LOGOUT_SUCCESS:
+      localStorage.removeItem('token');
+      return {...state, token: null};
     default:
       return state;
   }

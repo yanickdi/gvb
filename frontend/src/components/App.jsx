@@ -7,14 +7,18 @@ import {
 import './App.css';
 import HomePage from "../pages/HomePage";
 import LocationPage from "../pages/LocationPage";
-import LoginPage from "../LoginPage";
+import LoginLogoutPage from "../LoginLogoutPage";
+import AdminPage from "../AdminPage";
+import PrivateRoute from "./PrivateRoute";
 
 function App(props) {
   return (
       <Router>
         <Switch>
           <Route path="/location/:locationName" component={LocationPage} />
-          <Route path="/login" component={LoginPage}></Route>
+          <PrivateRoute path="/admin" component={AdminPage}></PrivateRoute>
+          <Route path="/login" component={LoginLogoutPage}></Route>
+          <Route path="/logout" render={props => <LoginLogoutPage doLogout {...props}/>}></Route>
           <Route path="/" component={HomePage} />
         </Switch>
       </Router>

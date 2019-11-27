@@ -17,6 +17,11 @@ class LoginForm extends React.Component {
   render() {
     const {username, password} = this.state;
     const {authenticationError, token} = this.props;
+
+    if (!!token){
+      console.log(this.props);
+      return null;
+    }
     return (
       <React.Fragment>
         {authenticationError &&

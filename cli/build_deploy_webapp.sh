@@ -5,7 +5,6 @@ build() {
   (
     echo "BUILDING FRONTEND"
     cd frontend || exit
-    #export PUBLIC_URL="https://yanick.dickbauer.at/fahrplan/"
     yarn build
   )
 }
@@ -33,5 +32,5 @@ deploy(){
   rsync -a backend/app $REMOTE_SERVER:$REMOTE_ROOT/api
 }
 
-#build
+build
 deploy
