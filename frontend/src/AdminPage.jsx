@@ -10,6 +10,10 @@ class AdminPage extends React.Component {
       </div>
       <div className="main-container">
         <h1>Fahrpläne verwalten</h1>
+        <div className="content-section">
+          <h2>Meine Standorte</h2>
+          <p>some blub</p>
+        </div>
       </div>
     </div>
   }

@@ -29,6 +29,12 @@ body {
     overflow-y: scroll;
     text-align: center;
     padding: 15px;
+
+    .content-section{
+      text-align: left;
+      padding-left: 50px;
+      margin-top: 80px;
+    }
   }
 
   .sidenav {
