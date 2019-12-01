@@ -13,6 +13,7 @@ import PrivateRoute from "./PrivateRoute";
 
 function App(props) {
   return (
+    <div className="page">
       <Router>
         <Switch>
           <Route path="/location/:locationName" component={LocationPage} />
@@ -22,6 +23,8 @@ function App(props) {
           <Route path="/" component={HomePage} />
         </Switch>
       </Router>
+    </div>
+
   );
 }
 
