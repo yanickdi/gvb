@@ -37,6 +37,10 @@ apiService.getBusstopTimetable = (busstop) => {
   return apiService.fetch('GET', `/busstop/${busstop}`);
 };
 
+apiService.loadLocations$ = () => {
+  return apiService.fetch('GET', '/locations');
+}
+
 apiService.login = (username, password) => {
   return apiService.fetch('POST', '/login', {username, password})
 };

@@ -5,10 +5,18 @@ import {
   APP_FAILURE,
   LOGIN_FAILED_AUTHENTICATION_ERROR,
   LOGIN_START,
-  LOGIN_SUCCESS, LOGOUT_SUCCESS,
+  LOGIN_SUCCESS, LOGOUT_SUCCESS, SET_LOCATION_LIST,
   SET_TIMETABLE_FOR_LOCATION,
   TIMETABLE_FROM_LOCATION_LOADING
 } from "./actionTypes";
+
+export function loadLocationList() {
+  return (dispatch) => {
+    apiService.loadLocations$().pipe(
+      map(locationList => dispatch({type: SET_LOCATION_LIST, payload: locationList}))
+    ).subscribe();
+  }
+}
 
 export function getTimetableFromLocation(locationName) {
   return (dispatch) => {
@@ -58,6 +66,6 @@ export function loginSubmit(username, password) {
   }
 }
 
-export function logout(){
+export function logout() {
   return {type: LOGOUT_SUCCESS};
 }

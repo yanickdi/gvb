@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import LocationManagement from "./components/LocationManagement";
 
 class AdminPage extends React.Component {
   render() {
@@ -12,7 +13,7 @@ class AdminPage extends React.Component {
         <h1>Fahrpläne verwalten</h1>
         <div className="content-section">
           <h2>Meine Standorte</h2>
-          <p>some blub</p>
+          <LocationManagement />
         </div>
       </div>
     </div>
