@@ -18,6 +18,14 @@ export function loadLocationList() {
   }
 }
 
+export function addLocation(createLocationPayload){
+  return (dispatch) => {
+    apiService.createLocation$(createLocationPayload).pipe(
+      map( result => console.log(result))
+    ).subscribe();
+  };
+}
+
 export function getTimetableFromLocation(locationName) {
   return (dispatch) => {
     dispatch({type: TIMETABLE_FROM_LOCATION_LOADING});
