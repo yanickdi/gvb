@@ -75,6 +75,16 @@ body {
       font-size: 18px;
     }
   }
+}
 
+.add-location-form{
+  form {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
 
+    .MuiFormControl-root.MuiTextField-root{
+      margin-bottom: 30px;
+    }
+  }
 }

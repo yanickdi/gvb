@@ -1,16 +1,59 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {connect} from "react-redux";
-import {loadLocationList} from "../redux/actions";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import {stringToSlug} from "../utils/utils";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
-const AddLocationForm = ({}) => {
-  useEffect(() => {
-  }, []);
+const prefix = <InputAdornment position="start">{window.location.host}/</InputAdornment>;
 
-  return <div>AddLocationForm</div>;
-};
+class AddLocationForm extends React.Component {
+  state = {
+    name: '',
+    slug: '',
+    slugManuallyChanged: false,
+    enableSave: false
+  };
 
-const mapStateToProps = (state) => ({
-});
+  nameChange = (e) => {
+    const value = e.target.value;
+
+    this.setState({
+      name: value,
+      slug: this.state.slugManuallyChanged ? this.state.slug : stringToSlug(value),
+      enableSave: value.length > 0
+    });
+  };
+
+  slugChange = (e) => {
+    this.setState({slugManuallyChanged: e.target.value.length > 0, slug: e.target.value});
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  render() {
+    const {name, slug, enableSave} = this.state;
+
+    return <div className='add-location-form'>
+      <form noValidate autoComplete="off" onSubmit={this.handleSubmit}>
+        <TextField label="Name des Standortes" variant="outlined"
+                   value={name} onChange={this.nameChange}/>
+        <TextField label="Url" variant="outlined"
+                   value={slug} onChange={this.slugChange}
+                   InputProps={{
+                     startAdornment: (slug.length > 0 ? prefix : null),
+                   }}/>
+        <Button variant="contained" color="primary" disabled={!enableSave}>
+          Standort speichern
+        </Button>
+      </form>
+    </div>;
+  }
+}
+
+const mapStateToProps = (state) => ({});
 
 const actionCreators = {};
 
