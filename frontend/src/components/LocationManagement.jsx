@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {connect} from "react-redux";
-import {loadLocationList} from "../redux/actions";
+import {deleteLocation, loadLocationList} from "../redux/actions";
 import AddLocationForm from "./AddLocationForm";
 
-const LocationManagement = ({locations, loadLocationList}) => {
+const LocationManagement = ({locations, loadLocationList, deleteLocation}) => {
   useEffect(() => {
     loadLocationList();
   }, [loadLocationList]);
@@ -14,7 +14,7 @@ const LocationManagement = ({locations, loadLocationList}) => {
       !!locations &&
       <ul>
         {locations.map(location =>
-          <li key={location.id}>{location.name}</li>
+          <li key={location.id}>{location.name} (<button onClick={() => deleteLocation(location.id)}>x</button>)</li>
         )}
       </ul>
     }
@@ -23,9 +23,9 @@ const LocationManagement = ({locations, loadLocationList}) => {
 };
 
 const mapStateToProps = ({admin: {locations}}) => ({
-  locations: locations
+  locations
 });
 
-const actionCreators = {loadLocationList};
+const actionCreators = {loadLocationList, deleteLocation};
 
 export default connect(mapStateToProps, actionCreators)(LocationManagement);

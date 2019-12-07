@@ -1,12 +1,15 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {loginSubmit} from "../redux/actions";
+import apiService from "../utils/apiService";
 
 class LoginForm extends React.Component {
   state = {
     username: 'admin',
     password: '123456'
   };
+
+
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -17,6 +20,8 @@ class LoginForm extends React.Component {
   render() {
     const {username, password} = this.state;
     const {authenticationError, token} = this.props;
+
+    apiService.loadLocations$().subscribe(result => this.setState({locations: result}));
 
     if (!!token){
       console.log(this.props);

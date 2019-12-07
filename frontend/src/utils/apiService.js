@@ -45,6 +45,10 @@ apiService.createLocation$ = (payload) => {
   return apiService.fetch('POST', '/location', payload);
 };
 
+apiService.deleteLocation$ = (locationId) => {
+  return apiService.fetch('DELETE', `/location/id/${locationId}`);
+};
+
 apiService.login = (username, password) => {
   return apiService.fetch('POST', '/login', {username, password})
 };
