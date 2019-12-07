@@ -8,6 +8,8 @@ class LoginForm extends React.Component {
     password: '123456'
   };
 
+
+
   handleSubmit = (event) => {
     event.preventDefault();
     const {loginSubmit} = this.props;

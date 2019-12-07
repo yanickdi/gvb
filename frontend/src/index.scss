@@ -1,3 +1,9 @@
+$screen-sm-min: 576px; // Small tablets and large smartphones (landscape view)
+$screen-md-min: 768px; // Small tablets (portrait view)
+$screen-lg-min: 992px; // Tablets and small desktops
+$screen-xl-min: 1200px; // Large tablets and desktops
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -33,6 +39,7 @@ body {
     .content-section{
       text-align: left;
       padding-left: 50px;
+      padding-right: 50px;
       margin-top: 80px;
     }
   }
@@ -47,6 +54,10 @@ body {
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    @media screen and (max-width: $screen-lg-min) {
+      // hide menu if not desktop
+      display: none;
+    }
 
     /* The navigation menu links */
     a {
@@ -77,9 +88,24 @@ body {
   }
 }
 
+.location-management{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+
+  .add-location-form{
+    //width: 500px;
+    //@media screen and (max-width: 500px) {
+    //  width: 100%;
+    //}
+  }
+}
+
 .add-location-form{
   form {
-    width: 400px;
+    width: 100%;
     display: flex;
     flex-direction: column;
 

@@ -6,7 +6,7 @@ class AdminPage extends React.Component {
   render() {
     return <div className="admin">
       <div className="sidenav">
-        <a href="/admin/locations">Standorte verwalten</a>
+        <Link to="/admin/locations">Standorte verwalten</Link>
         <Link to='/logout'>Logout</Link>
       </div>
       <div className="main-container">
