@@ -10,4 +10,4 @@ export const ENVIRONMENT = (() => {
 })();
 
 export const API_URL = ENVIRONMENT === PRODUCTION ?
-  'https://api.fahrplan.yanick.dickbauer.at' : 'http://localhost:5000';
+  process.env.API_URL : 'http://localhost:5000';
