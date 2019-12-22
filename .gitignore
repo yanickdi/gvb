@@ -3,3 +3,5 @@ backend/db.sqlite
 archive/
 .idea
 env/secrets.sh
+**/.DS_Store
+**/__pycache__
