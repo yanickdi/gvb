@@ -1,0 +1,2 @@
+class LocationInformationRequestNothingFoundError(Exception):
+    pass
