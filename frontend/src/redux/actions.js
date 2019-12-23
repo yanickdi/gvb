@@ -10,7 +10,7 @@ import {
   TIMETABLE_FROM_LOCATION_LOADING
 } from "./actionTypes";
 
-export const loadLocationList = (dispatch) => {
+export const loadLocationList = () => (dispatch) => {
   apiService.loadLocations$().pipe(
     map(locationList => dispatch({type: SET_LOCATION_LIST, payload: locationList}))
   ).subscribe();
