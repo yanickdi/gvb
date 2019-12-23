@@ -7,6 +7,7 @@ from app.models.auth_token import AuthToken
 from app.models.location import Location, locations_schema, location_schema
 from app.models.user import User, users_schema
 from app.utils.utils import has_no_empty_params, Errors, error
+from verbund_soap_client.verbund_soap_client import VDVClient
 
 
 @app.route('/users', methods=['GET'])
@@ -14,6 +15,14 @@ def get_users():
     all_users = User.query.all()
     result = users_schema.dump(all_users)
     return jsonify(result)
+
+
+@app.route('/proxy/location-information-request', methods=['GET'])
+def proxy_location_information_request():
+    if 'location_name' in request.args:
+        locations = VDVClient().location_information_request__location_name(
+            request.args['location_name'])
+        return jsonify(locations)
 
 
 @app.route('/locations', methods=['GET'])
