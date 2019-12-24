@@ -5,7 +5,8 @@ from sqlalchemy.orm.exc import NoResultFound, UnmappedInstanceError
 from app.application import app, db
 from app.models.auth_token import AuthToken
 from app.models.location import Location, locations_schema, location_schema
-from app.models.stop_point import StopPoint, stop_points_schema
+from app.models.stop_point import StopPoint, stop_points_schema, \
+    stop_point_schema
 from app.models.user import User, users_schema
 from app.utils.utils import has_no_empty_params, Errors, error
 from verbund_soap_client.verbund_soap_client import VDVClient
@@ -31,11 +32,6 @@ def get_locations():
     return jsonify(locations_schema.dump(Location.query.all()))
 
 
-@app.route('/stopPoints', methods=['GET'])
-def get_stop_points():
-    return jsonify(stop_points_schema.dump(StopPoint.query.all()))
-
-
 @app.route('/location', methods=['POST'])
 def create_location():
     name, slug = request.json['name'], request.json['slug']
@@ -58,6 +54,21 @@ def rud_location(location_id):
         db.session.delete(location)
         db.session.commit()
     return jsonify(location_schema.dump(location))
+
+
+@app.route('/location/id/<location_id>/stopPoint', methods=['POST'])
+def create_stop_point(location_id):
+    name, city, ref = request.json['name'], request.json['city'], request.json[
+        'ref']
+    stop_point = StopPoint(name=name, city=city, ref=ref, location_id=location_id)
+    db.session.add(stop_point)
+    db.session.commit()
+    return jsonify(stop_point_schema.dump(stop_point))
+
+
+@app.route('/location/id/<location_id>/stopPoints', methods=['GET'])
+def get_stop_points(location_id):
+    return jsonify(stop_points_schema.dump(Location.query.get(location_id).stop_points))
 
 
 @app.route('/login', methods=['POST'])

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import {BehaviorSubject, of} from "rxjs";
 import {debounceTime, switchMap, filter, map, tap, catchError} from "rxjs/operators";
@@ -11,8 +12,8 @@ class AddBusstopForm extends React.Component {
     loading: false
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.nameChanges$ = new BehaviorSubject(null);
     this.nameChanges$.asObservable().pipe(
@@ -22,7 +23,7 @@ class AddBusstopForm extends React.Component {
       switchMap(name => {
         return name !== '' ? apiService.findBusstopAtLocation$(name) : of([])
       }),
-      catchError(err => console.log('### error', err)),
+      catchError(err => console.log('error:', err)),
       map(result => result.filter(entry => entry.Location && entry.Location.StopPoint).map(entry => entry.Location)),
       map(entry => entry.map(location => ({
         city: location.LocationName.Text,
@@ -42,17 +43,38 @@ class AddBusstopForm extends React.Component {
     this.nameChanges$.next(name);
   };
 
+  handleBusStopClick = ({stopPointName, city, stopPointRef}) => {
+    console.log(stopPointName);
+    const payload = {
+      locationId: this.props.locationId,
+      name: stopPointName,
+      city,
+      ref: stopPointRef
+    };
+    apiService.createStopPoint$(payload).subscribe(
+      result => {
+        console.log('done');
+      }
+    );
+  };
+
   render() {
     return <div>
       <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
       <div>
         {this.state.loading && <p>Lade...</p>}
         {this.state.shownLocations.map((location, i) => {
-          return <p key={i}>{location.stopPointName}, {location.city}, {location.stopPointRef}</p>;
+          return <p key={i} onClick={() => this.handleBusStopClick(location)}>
+            {location.stopPointName}, {location.city}, {location.stopPointRef}
+          </p>;
         })}
       </div>
     </div>
   }
 }
+
+AddBusstopForm.propTypes = {
+  locationId: PropTypes.number.isRequired,
+};
 
 export default connect(null, null)(AddBusstopForm);

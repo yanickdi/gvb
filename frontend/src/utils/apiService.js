@@ -33,10 +33,6 @@ apiService.fetch = (method, path, payload = null) => {
   );
 };
 
-apiService.getBusstopsFromLocation = (locationName) => {
-  return apiService.fetch('GET', `/location/${locationName}`);
-};
-
 apiService.getBusstopTimetable = (busstop) => {
   return apiService.fetch('GET', `/busstop/${busstop}`);
 };
@@ -47,6 +43,14 @@ apiService.loadLocations$ = () => {
 
 apiService.createLocation$ = (payload) => {
   return apiService.fetch('POST', '/location', payload);
+};
+
+apiService.createStopPoint$ = ({locationId, ...payload}) => {
+  return apiService.fetch('POST', `/location/id/${locationId}/stopPoint`, payload);
+};
+
+apiService.getStopPointsOfLocation$ = (locationId) => {
+  return apiService.fetch('GET', `/location/id/${locationId}/stopPoints`);
 };
 
 apiService.findBusstopAtLocation$ = (locationName) => {
