@@ -1,17 +1,26 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import apiService from "../utils/apiService";
 
-const BusStopList = ({locationId}) => {
-  const [stops, setStops] = useState(null);
-  useEffect( () => {
-    apiService.getStopPointsOfLocation$(locationId).subscribe(
-      result => setStops(result)
-    );
-  }, [locationId]);
+class BusStopList extends React.Component {
 
-  return stops ? stops.map(busstop => {
-    return <div key={busstop.id}>{busstop.name}, {busstop.city}</div>;
+  state = {
+    stops: null
+  };
+
+  componentDidMount() {
+    const {locationId} = this.props;
+    apiService.getStopPointsOfLocation$(locationId).subscribe(
+      stops => this.setState({stops})
+    );
+  }
+
+  render() {
+    const {stops} = this.state;
+
+    return stops ? stops.map(busstop => {
+      return <div key={busstop.id}>{busstop.name}, {busstop.city}</div>;
     }) : <p>loading...</p>;
-};
+  }
+}
 
 export default BusStopList;
