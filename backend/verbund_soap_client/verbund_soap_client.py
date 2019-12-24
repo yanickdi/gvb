@@ -29,8 +29,8 @@ class VDVClient:
                           'RequestPayload'),
             request_name)
         append_dict_to_xml_node(request_child, request_payload)
-        return '{}\n{}'.format('<?xml version="1.0" encoding="UTF-8"?>',
-                               et.tostring(trias, encoding='unicode'))
+        return '<?xml version="1.0" encoding="UTF-8"?>' + '\n' + et.tostring(
+            trias).decode('utf-8')
 
     def send_request(self, request_name: str, request_payload: dict):
         request_payload_xml = self.build_request_xml(request_name,
@@ -40,6 +40,7 @@ class VDVClient:
         if resp.status_code != 200:
             raise Exception(
                 f'Status {resp.status_code} returned by gvb soap interface')
+        resp.encoding = 'utf-8'
         resp_dict = xmltodict.parse(resp.text)
         try:
             delivery_payload = resp_dict['Trias']['ServiceDelivery'][
@@ -60,7 +61,18 @@ class VDVClient:
                 'LocationName': location_name
             }
         })
-        return resp['LocationInformationResponse']['Location']
+        if 'ErrorMessage' in resp:
+            if resp['ErrorMessage']['Code'] == '-20100':
+                raise LocationInformationRequestNothingFoundError()
+            raise Exception('Undefined Error')
+
+        locations = resp['LocationInformationResponse']['Location']
+        # the api will return only one element if it finds one. but we always
+        # want to
+        # to ensure a list:
+        if not type(locations) == list:
+            return [locations]
+        return locations
 
     def location_information_request__nearby_gps(self, longitude: str,
                                                  latitude: str,
@@ -72,7 +84,7 @@ class VDVClient:
         :param latitude:  e.g. '47.07122'
         :param radius: distance in meter, defaults to 100
         """
-        resp =  self.send_request('LocationInformationRequest', {
+        resp = self.send_request('LocationInformationRequest', {
             'InitialInput': {
                 'GeoRestriction': {
                     'Circle': {

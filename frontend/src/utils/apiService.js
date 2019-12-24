@@ -7,7 +7,11 @@ const apiService = {};
 
 apiService.fetch = (method, path, payload = null) => {
   const body = method !== 'GET' ? JSON.stringify(payload) : null;
-  return fromFetch(API_URL + path, {
+  const url = new URL(API_URL + path);
+  if (method === 'GET' && payload) {
+    Object.keys(payload).forEach(key => url.searchParams.append(key, payload[key]));
+  }
+  return fromFetch(url, {
     method: method,
     headers: {"Content-Type": "application/json"},
     body: body
@@ -43,6 +47,10 @@ apiService.loadLocations$ = () => {
 
 apiService.createLocation$ = (payload) => {
   return apiService.fetch('POST', '/location', payload);
+};
+
+apiService.findBusstopAtLocation$ = (locationName) => {
+  return apiService.fetch('GET', '/proxy/location-information-request', {location_name: locationName});
 };
 
 apiService.deleteLocation$ = (locationId) => {
