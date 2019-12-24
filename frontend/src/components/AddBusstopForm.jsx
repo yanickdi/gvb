@@ -44,6 +44,10 @@ class AddBusstopForm extends React.Component {
     this.nameChanges$.next(name);
   };
 
+  resetForm(){
+    this.setState({name: '', shownLocations: [], loading: false});
+  }
+
   handleBusStopClick = ({stopPointName, city, stopPointRef}) => {
     const {locationId, busstopAddedToLocation} = this.props;
     const payload = {
@@ -55,6 +59,8 @@ class AddBusstopForm extends React.Component {
     apiService.createStopPoint$(payload).subscribe(
       result => {
         busstopAddedToLocation(locationId);
+        // reset form
+        this.resetForm('');
       }
     );
   };
@@ -66,7 +72,7 @@ class AddBusstopForm extends React.Component {
         {this.state.loading && <p>Lade...</p>}
         {this.state.shownLocations.map((location, i) => {
           return <p key={i} onClick={() => this.handleBusStopClick(location)}>
-            {location.stopPointName}, {location.city}, {location.stopPointRef}
+            {location.stopPointName}, {location.city}
           </p>;
         })}
       </div>

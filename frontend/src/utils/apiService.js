@@ -53,6 +53,10 @@ apiService.getStopPointsOfLocation$ = (locationId) => {
   return apiService.fetch('GET', `/location/id/${locationId}/stopPoints`);
 };
 
+apiService.deleteStopPoint$ = (stopPointId) => {
+  return apiService.fetch('DELETE', `/stopPoint/id/${stopPointId}`);
+};
+
 apiService.findBusstopAtLocation$ = (locationName) => {
   return apiService.fetch('GET', '/proxy/location-information-request', {location_name: locationName});
 };

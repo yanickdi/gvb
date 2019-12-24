@@ -66,6 +66,17 @@ def create_stop_point(location_id):
     return jsonify(stop_point_schema.dump(stop_point))
 
 
+@app.route('/stopPoint/id/<stop_point_id>', methods=['GET', 'DELETE'])
+def rud_stop_point(stop_point_id):
+    stop_point = StopPoint.query.get(stop_point_id)
+    if not stop_point:
+        return error(Errors.OBJECT_NOT_FOUND_ERROR)
+    if request.method == 'DELETE':
+        db.session.delete(stop_point)
+        db.session.commit()
+    return jsonify(location_schema.dump(stop_point))
+
+
 @app.route('/location/id/<location_id>/stopPoints', methods=['GET'])
 def get_stop_points(location_id):
     return jsonify(stop_points_schema.dump(Location.query.get(location_id).stop_points))

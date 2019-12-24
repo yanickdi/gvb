@@ -1,6 +1,7 @@
 import React from "react";
 import apiService from "../utils/apiService";
 import {connect} from "react-redux";
+import {busstopAddedToLocation} from "../redux/actions";
 
 class BusStopList extends React.Component {
 
@@ -28,11 +29,25 @@ class BusStopList extends React.Component {
     }
   }
 
+  handleDeleteBusStop(busStopId) {
+    apiService.deleteStopPoint$(busStopId).subscribe(
+      ok => {
+        this.props.busstopAddedToLocation(this.props.locationId);
+      }
+    );
+  }
+
   render() {
     const {stops} = this.state;
 
     return stops ? stops.map(busstop => {
-      return <div key={busstop.id}>{busstop.name}, {busstop.city}</div>;
+      return (
+        <div key={busstop.id}>{busstop.name}, {busstop.city}
+          <span
+            style={({color: 'red', cursor: 'pointer'})}
+            onClick={() => this.handleDeleteBusStop(busstop.id)}>(x)
+        </span>
+        </div>);
     }) : <p>loading...</p>;
   }
 }
@@ -47,4 +62,4 @@ const mapStateToProps = ({admin}, ownProps) => ({
   lastChanged: selectLastChange(admin, ownProps.locationId)
 });
 
-export default connect(mapStateToProps, null)(BusStopList);
+export default connect(mapStateToProps, {busstopAddedToLocation})(BusStopList);
