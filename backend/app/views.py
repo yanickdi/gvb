@@ -5,6 +5,7 @@ from sqlalchemy.orm.exc import NoResultFound, UnmappedInstanceError
 from app.application import app, db
 from app.models.auth_token import AuthToken
 from app.models.location import Location, locations_schema, location_schema
+from app.models.stop_point import StopPoint, stop_points_schema
 from app.models.user import User, users_schema
 from app.utils.utils import has_no_empty_params, Errors, error
 from verbund_soap_client.verbund_soap_client import VDVClient
@@ -28,6 +29,11 @@ def proxy_location_information_request():
 @app.route('/locations', methods=['GET'])
 def get_locations():
     return jsonify(locations_schema.dump(Location.query.all()))
+
+
+@app.route('/stopPoints', methods=['GET'])
+def get_stop_points():
+    return jsonify(stop_points_schema.dump(StopPoint.query.all()))
 
 
 @app.route('/location', methods=['POST'])
