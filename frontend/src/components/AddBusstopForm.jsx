@@ -26,7 +26,8 @@ class AddBusstopForm extends React.Component {
       map(result => result.filter(entry => entry.Location && entry.Location.StopPoint).map(entry => entry.Location)),
       map(entry => entry.map(location => ({
         city: location.LocationName.Text,
-        stopPointName: location.StopPoint.StopPointName.Text
+        stopPointName: location.StopPoint.StopPointName.Text,
+        stopPointRef: location.StopPoint.StopPointRef
       })))
     ).subscribe(
       foundLocations => {
@@ -47,7 +48,7 @@ class AddBusstopForm extends React.Component {
       <div>
         {this.state.loading && <p>Lade...</p>}
         {this.state.shownLocations.map((location, i) => {
-          return <p key={i}>{location.stopPointName}, {location.city}</p>;
+          return <p key={i}>{location.stopPointName}, {location.city}, {location.stopPointRef}</p>;
         })}
       </div>
     </div>

@@ -20,7 +20,7 @@ const LocationManagement = ({locations, loadLocationList, deleteLocation}) => {
       !!locations &&
       <div className="location-list">
         {locations.map(location =>
-          <ExpansionPanel key={location.id} expanded>
+          <ExpansionPanel key={location.id}>
             <ExpansionPanelSummary className="location-summary"
               expandIcon={<ExpandMoreIcon/>}>
               {location.name}
