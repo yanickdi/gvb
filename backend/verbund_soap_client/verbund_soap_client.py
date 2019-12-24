@@ -4,7 +4,8 @@ import xml.etree.ElementTree as et
 import xmltodict
 
 from verbund_soap_client.errors import \
-    LocationInformationRequestNothingFoundError
+    LocationInformationRequestNothingFoundError, ERROR_CODE_LOCATION_NO_RESULTS, \
+    UndefinedVerbundSoapClientError
 
 ENV_KEY = 'VDV_BASE_URL'
 
@@ -61,10 +62,13 @@ class VDVClient:
                 'LocationName': location_name
             }
         })
-        if 'ErrorMessage' in resp:
-            if resp['ErrorMessage']['Code'] == '-20100':
-                raise LocationInformationRequestNothingFoundError()
-            raise Exception('Undefined Error')
+
+        if 'ErrorMessage' in resp['LocationInformationResponse']:
+            error_code = resp['LocationInformationResponse']['ErrorMessage']['Code']
+            if error_code == ERROR_CODE_LOCATION_NO_RESULTS:
+                return []
+            else:
+                return UndefinedVerbundSoapClientError()
 
         locations = resp['LocationInformationResponse']['Location']
         # the api will return only one element if it finds one. but we always

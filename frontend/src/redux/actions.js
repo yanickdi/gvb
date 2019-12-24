@@ -2,7 +2,7 @@ import apiService from "../utils/apiService";
 import {map, switchMap} from "rxjs/operators";
 import {forkJoin} from "rxjs";
 import {
-  APP_FAILURE,
+  APP_FAILURE, BUSSTOP_ADDED_TO_LOCATION,
   LOGIN_FAILED_AUTHENTICATION_ERROR,
   LOGIN_START,
   LOGIN_SUCCESS, LOGOUT_SUCCESS, SET_LOCATION_LIST,
@@ -26,6 +26,10 @@ export const addLocation = (createLocationPayload) => (dispatch) => {
     map(locationList => dispatch({type: SET_LOCATION_LIST, payload: locationList}))
   ).subscribe();
 };
+
+export function busstopAddedToLocation(locationId) {
+  return {type: BUSSTOP_ADDED_TO_LOCATION, payload: locationId};
+}
 
 /**
  * Deletes a location and reloads locations afterwards

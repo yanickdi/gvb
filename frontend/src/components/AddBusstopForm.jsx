@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {BehaviorSubject, of} from "rxjs";
 import {debounceTime, switchMap, filter, map, tap, catchError} from "rxjs/operators";
 import apiService from "../utils/apiService";
+import {busstopAddedToLocation} from "../redux/actions";
 
 class AddBusstopForm extends React.Component {
   state = {
@@ -44,16 +45,16 @@ class AddBusstopForm extends React.Component {
   };
 
   handleBusStopClick = ({stopPointName, city, stopPointRef}) => {
-    console.log(stopPointName);
+    const {locationId, busstopAddedToLocation} = this.props;
     const payload = {
-      locationId: this.props.locationId,
+      locationId,
       name: stopPointName,
       city,
       ref: stopPointRef
     };
     apiService.createStopPoint$(payload).subscribe(
       result => {
-        console.log('done');
+        busstopAddedToLocation(locationId);
       }
     );
   };
@@ -77,4 +78,4 @@ AddBusstopForm.propTypes = {
   locationId: PropTypes.number.isRequired,
 };
 
-export default connect(null, null)(AddBusstopForm);
+export default connect(null, {busstopAddedToLocation})(AddBusstopForm);
