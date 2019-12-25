@@ -5,18 +5,15 @@ import apiService from "../utils/apiService";
 class Timetable extends React.Component {
   state = {
     slug: null,
-    isFetching: false,
+    isFetching: true,
     timeTable: null
   };
 
   componentDidMount() {
     const {location} = this.props;
     const slug = location.pathname.slice(1);
-    this.setState({slug, isFetching: true});
     apiService.getTimeTableForLocationSlug(slug).subscribe(
       result => {
-        console.log('## alright');
-        console.log(result);
         this.setState({
           isFetching: false,
           timeTable: result
@@ -26,35 +23,30 @@ class Timetable extends React.Component {
   }
 
   render() {
-    const {isFetching} = this.state;
-    return isFetching ? <p>Loading...</p> : <p>alrighty then</p>
-    // if (!location.locationName) return <p>Not loaded yet</p>;
-
-    // return <table>
-    //   <thead>
-    //   <tr>
-    //     <th>Stop</th>
-    //     <th>Line</th>
-    //     <th>Dest</th>
-    //     <th>Time</th>
-    //   </tr>
-    //
-    //   </thead>
-    //   <tbody>{location.timetable.map((entry, i) => {
-    //
-    //       return <tr key={i}>
-    //         <td>{entry.stop}</td>
-    //         <td>{entry.line}</td>
-    //         <td>{entry.dest}</td>
-    //         <td>{entry.time}</td>
-    //       </tr>
-    //     }
-    //   )}</tbody>
-    //
-    // </table>;
+    const {isFetching, timeTable} = this.state;
+    return isFetching ? <p>Loading...</p> : (
+      <table className="timetable" style={({width: '100%'})}>
+        <thead>
+        <tr>
+          <th>Stop</th>
+          <th>Linie</th>
+          <th>Dest</th>
+          <th>Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        {timeTable.map((entry, i) =>
+          <tr key={i}>
+            <td>{entry.stop_point_name}</td>
+            <td>{entry.mode} {entry.line}</td>
+            <td>{entry.destination}</td>
+            <td>{entry.departure}</td>
+          </tr>
+        )}
+        </tbody>
+      </table>);
   }
 }
 
-const mapStateToProps = state => ({
-});
+const mapStateToProps = state => ({});
 export default connect(mapStateToProps, null)(Timetable);
