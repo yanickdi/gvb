@@ -5,7 +5,8 @@ import xmltodict
 
 from verbund_soap_client.errors import \
     LocationInformationRequestNothingFoundError, ERROR_CODE_LOCATION_NO_RESULTS, \
-    UndefinedVerbundSoapClientError
+    UndefinedVerbundSoapClientError, ERROR_CODE_STOP_EVENT_LOCATION_UNSERVED, \
+    StopEventLocationUnservedError
 
 ENV_KEY = 'VDV_BASE_URL'
 
@@ -111,6 +112,22 @@ class VDVClient:
                 raise LocationInformationRequestNothingFoundError()
             raise Exception('Undefined Error')
         return resp
+
+    def stop_event_request(self, location_ref: str):
+        resp = self.send_request('StopEventRequest', {
+            'Location': {
+                'LocationRef': {
+                    'StopPointRef': location_ref
+                }
+            }
+        })
+        resp = resp['StopEventResponse']
+        if 'ErrorMessage' in resp:
+            code = resp['ErrorMessage']['Code']
+            if code == ERROR_CODE_STOP_EVENT_LOCATION_UNSERVED:
+                raise StopEventLocationUnservedError()
+            raise UndefinedVerbundSoapClientError(code)
+        return resp['StopEventResult']
 
 
 def append_dict_to_xml_node(root_node: et.Element,

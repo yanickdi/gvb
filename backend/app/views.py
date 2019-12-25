@@ -1,4 +1,6 @@
-from flask import jsonify, url_for, request
+import itertools
+
+from flask import jsonify, url_for, request, Response
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import NoResultFound, UnmappedInstanceError
 
@@ -8,7 +10,8 @@ from app.models.location import Location, locations_schema, location_schema
 from app.models.stop_point import StopPoint, stop_points_schema, \
     stop_point_schema
 from app.models.user import User, users_schema
-from app.utils.utils import has_no_empty_params, Errors, error
+from app.utils.utils import has_no_empty_params, Errors, error, \
+    get_timetable_for_stop_point_ref_list_multithreaded
 from verbund_soap_client.verbund_soap_client import VDVClient
 
 
@@ -26,10 +29,21 @@ def proxy_location_information_request():
             request.args['location_name'])
         return jsonify(locations)
 
-
 @app.route('/locations', methods=['GET'])
 def get_locations():
     return jsonify(locations_schema.dump(Location.query.all()))
+
+@app.route('/location/slug/<slug>/timetable', methods=['GET'])
+def get_timetable_for_location_slug(slug):
+    try:
+        location = Location.query.filter(Location.slug == slug).one()
+    except NoResultFound:
+        return error(Errors.OBJECT_NOT_FOUND_ERROR, status_code=404)
+    stop_point_refs = [stop_point.ref for stop_point in location.stop_points]
+
+    result_lists = list(get_timetable_for_stop_point_ref_list_multithreaded(stop_point_refs))
+    result = itertools.chain.from_iterable(result_lists) # todo: have to sort the lists while/after jaining them
+    return jsonify(list(result))
 
 
 @app.route('/location', methods=['POST'])
