@@ -10,6 +10,7 @@ import LocationPage from "../pages/LocationPage";
 import LoginLogoutPage from "../LoginLogoutPage";
 import AdminPage from "../AdminPage";
 import PrivateRoute from "./PrivateRoute";
+import Timetable from "./Timetable";
 
 function App(props) {
   return (
@@ -20,7 +21,8 @@ function App(props) {
           <PrivateRoute path="/admin" component={AdminPage}></PrivateRoute>
           <Route path="/login" component={LoginLogoutPage}></Route>
           <Route path="/logout" render={props => <LoginLogoutPage doLogout {...props}/>}></Route>
-          <Route path="/" component={HomePage} />
+          <Route path="/" exact component={HomePage} />
+          <Route path="/" component={Timetable} />
         </Switch>
       </Router>
     </div>

@@ -33,12 +33,17 @@ apiService.fetch = (method, path, payload = null) => {
   );
 };
 
+// TODO: remove this method!!
 apiService.getBusstopTimetable = (busstop) => {
   return apiService.fetch('GET', `/busstop/${busstop}`);
 };
 
 apiService.loadLocations$ = () => {
   return apiService.fetch('GET', '/locations');
+};
+
+apiService.getTimeTableForLocationSlug = (slug) => {
+  return apiService.fetch('GET', `/location/slug/${slug}/timetable`);
 };
 
 apiService.createLocation$ = (payload) => {
