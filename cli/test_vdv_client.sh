@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 source ./cli/load_flask_env.sh
 
-flask run
+python ../cli/test_vdv_client.py

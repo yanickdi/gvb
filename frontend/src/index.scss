@@ -1,0 +1,120 @@
+$screen-sm-min: 576px; // Small tablets and large smartphones (landscape view)
+$screen-md-min: 768px; // Small tablets (portrait view)
+$screen-lg-min: 992px; // Tablets and small desktops
+$screen-xl-min: 1200px; // Large tablets and desktops
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  width: 100vw;
+
+  .page{
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.admin {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+
+  .main-container {
+    flex-grow: 1;
+    overflow-y: scroll;
+    text-align: center;
+    padding: 15px;
+
+    .content-section{
+      text-align: left;
+      padding-left: 50px;
+      padding-right: 50px;
+      margin-top: 80px;
+    }
+  }
+
+  .sidenav {
+    min-width: 250px; /* 0 width - change this with JavaScript */
+    max-width: 250px;
+    background: #5b4282;
+    opacity: .9;
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    @media screen and (max-width: $screen-lg-min) {
+      // hide menu if not desktop
+      display: none;
+    }
+
+    /* The navigation menu links */
+    a {
+      padding: 8px 0;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      color: #ddd;
+      display: block;
+      transition: 0.3s;
+      line-height: 40px;
+
+      &:hover {
+        color: #f1f1f1;
+        background: #846bab;
+      }
+    }
+  }
+
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidenav {
+    }
+    .sidenav a {
+      font-size: 18px;
+    }
+  }
+}
+
+.location-management{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+
+  .add-location-form{
+    //width: 500px;
+    //@media screen and (max-width: 500px) {
+    //  width: 100%;
+    //}
+  }
+
+  .location-detail{
+    display: block;
+  }
+}
+
+.add-location-form{
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .MuiFormControl-root.MuiTextField-root{
+      margin-bottom: 30px;
+    }
+  }
+}

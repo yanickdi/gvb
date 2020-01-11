@@ -9,6 +9,7 @@ class HomePage extends React.Component {
     return <div>{ENVIRONMENT}
       <ul>
         <li><Link to="/location/uni-it">Uni</Link></li>
+        <li><Link to="/admin">Admin</Link></li>
       </ul>
     </div>;
   }

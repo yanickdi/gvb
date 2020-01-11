@@ -1,26 +1,52 @@
 import React from 'react';
-import {getTimetableFromLocation} from "../redux/actions";
 import {connect} from "react-redux";
+import apiService from "../utils/apiService";
 
 class Timetable extends React.Component {
-  render() {
+  state = {
+    slug: null,
+    isFetching: true,
+    timeTable: null
+  };
+
+  componentDidMount() {
     const {location} = this.props;
-    if (!location.locationName) return <p>Not loaded yet</p>;
+    const slug = location.pathname.slice(1);
+    apiService.getTimeTableForLocationSlug(slug).subscribe(
+      result => {
+        this.setState({
+          isFetching: false,
+          timeTable: result
+        });
+      }
+    );
+  }
 
-    return <table>
-      <tbody>{location.timetable.map((entry, i) =>
-        <tr key={i}>
-          <td>Linie {entry.line}</td>
-          <td>{entry.time}</td>
+  render() {
+    const {isFetching, timeTable} = this.state;
+    return isFetching ? <p>Loading...</p> : (
+      <table className="timetable" style={({width: '100%'})}>
+        <thead>
+        <tr>
+          <th>Stop</th>
+          <th>Linie</th>
+          <th>Dest</th>
+          <th>Time</th>
         </tr>
-      )}</tbody>
-
-    </table>;
+        </thead>
+        <tbody>
+        {timeTable.map((entry, i) =>
+          <tr key={i}>
+            <td>{entry.stop_point_name}</td>
+            <td>{entry.mode} {entry.line}</td>
+            <td>{entry.destination}</td>
+            <td>{entry.departure}</td>
+          </tr>
+        )}
+        </tbody>
+      </table>);
   }
 }
 
-const mapStateToProps = state => ({
-  location: state.timetable.location
-});
-const createActions = {getTimetableFromLocation};
-export default connect(mapStateToProps, createActions)(Timetable);
+const mapStateToProps = state => ({});
+export default connect(mapStateToProps, null)(Timetable);

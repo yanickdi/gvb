@@ -1,5 +1,7 @@
 import {SET_TIMETABLE_FOR_LOCATION} from "../actionTypes";
 
+/* TODO: Remove this reducer! */
+
 const initialState = {
   location: {}
 };
